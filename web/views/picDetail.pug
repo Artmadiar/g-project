@@ -3,8 +3,8 @@ extends layout
 block content
   .page-header
     h3=title
-    hr
 
+  .container
     .row
       .col-lg-12
 
@@ -14,10 +14,13 @@ block content
               fieldset
                 if pic.id
                   input(type='hidden', name='id' value=pic.id)
-                input(type='hidden', name='clubId' value=clubId)
                 .form-group
                   label(for='name') Name:
                   input.form-control(type='text' name='name' placeholder='Name' value=pic.name)
+                .form-group
+                  label(for='hashtags') Hashtags
+                  input#hashtaglist(type='hidden', name='hashtaglist' value=hashtaglist)
+                  input.form-control#hashtags(type="text" name='hashtags' value="red,green,blue")
           .row
             .col-lg-12
               br
@@ -33,6 +36,17 @@ block content
                   i.fa.fa-save
                   | Save
   script.
+
+    $(document).ready(function() {
+      $('#hashtags').tokenfield({
+        autocomplete: {
+          source: JSON.parse($('[name="hashtaglist"]').val()),
+          delay: 100
+        },
+        showAutocompleteOnFocus: true
+      });
+    });
+
     var del = function(){
       $.ajax({
         type: "DELETE",

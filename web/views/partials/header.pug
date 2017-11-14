@@ -13,9 +13,11 @@
 
 
     ul.nav.navbar-nav.navbar-right.navbar-collapse.collapse#navbar
-      if !user
-      else
-        li
-          a(href='/backoffice/pics') Pics
-        li
-          a(href='/backoffice/logout') Logout
+      //- if !user
+      //- else
+      li
+        a(href='/backoffice/pics') Pics
+      li
+        a(href='/backoffice/skipped') Skipped requests
+      //- li
+      //-   a(href='/backoffice/logout') Logout

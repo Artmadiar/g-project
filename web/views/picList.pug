@@ -15,9 +15,11 @@ block content
         tr
           th id
           th name
+          th hashtags
       tbody
         each pic, index in pics
           tr
             td=pic.id
             td
               a(href='/backoffice/pics/' + pic.id)=pic.name
+            td=pic.hashtags

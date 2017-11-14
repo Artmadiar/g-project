@@ -7,10 +7,16 @@ exports.list = (req, res, next) => {
   const db = req.db;
 
   db.pic.findAll({
-    order: ['id'],
-    raw: true
+    include: {
+      model: db.picHashtag
+    },
+    order: ['id']
   })
   .then((pics) => {
+    pics.each((pic) => {
+      pic.hashtags = pic.picHashtags.map(picHashtag => picHashtag.name).json(', ');
+    });
+
     res.render('picList', { pics });
   })
   .catch(err => next(err));
@@ -27,11 +33,13 @@ exports.detail = (req, res, next) => {
   if (id !== 'new') {
     picProm = db.pic.findById(id, { raw: true });
   } else {
-    picProm = Promise.resolve({});
+    picProm = Promise.resolve({ hashtags: [] });
   }
 
-  picProm
-  .then((pic) => {
+  const hashtagProm = db.hashtag.findAll();
+
+  Promise.all([picProm, hashtagProm])
+  .then(([pic, hashtags]) => {
     if (!pic) {
       throw new errors.NotFound();
     }
@@ -40,9 +48,12 @@ exports.detail = (req, res, next) => {
     if (req.params.id !== 'new') {
       title = `Pic ${pic.name}`;
     } else {
-      title = 'New pic';
+      title = 'New picture';
     }
-    res.render('picDetail', { title, pic });
+
+    const hashtaglist = hashtags.map(hashtag => hashtag.name);
+
+    res.render('picDetail', { title, pic, hashtaglist: JSON.stringify(hashtaglist) });
   })
   .catch((err) => {
     next(err);
