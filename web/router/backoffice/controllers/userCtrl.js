@@ -1,4 +1,4 @@
-const auth = require('../../../auth/passportLocal');
+// const auth = require('../../../auth/passportLocal');
 
 /**
  * GET /login
@@ -23,21 +23,21 @@ exports.postLogin = (req, res, next) => {
     return res.redirect(`${req.baseUrl}/login`);
   }
 
-  auth.passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
+  // auth.passport.authenticate('local', (err, user, info) => {
+  //   if (err) return next(err);
 
-    if (!user) {
-      req.flash('errors', info);
-      return res.redirect(`${req.baseUrl}/login`);
-    }
+  //   if (!user) {
+  //     req.flash('errors', info);
+  //     return res.redirect(`${req.baseUrl}/login`);
+  //   }
 
-    req.login(user, (err) => {
-      if (err) { return next(err); }
+  //   req.login(user, (err) => {
+  //     if (err) { return next(err); }
 
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || req.baseUrl);
-    });
-  })(req, res, next);
+  //     req.flash('success', { msg: 'Success! You are logged in.' });
+  //     res.redirect(req.session.returnTo || req.baseUrl);
+  //   });
+  // })(req, res, next);
 };
 
 /**
