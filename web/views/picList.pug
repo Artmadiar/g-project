@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .page-header
+    a(href='/backoffice/pics/new')
+      button.btn.btn-success.pull-right
+        i.fa.fa-plus
+        | New
+    a(href='/backoffice/pics')
+      button.btn.btn-primary.pull-right
+        i.fa.fa-arrow-left
+        | Return
+
+    h3=title
+
+  if pics
+    table.table
+      thead
+        tr
+          th id
+          th name
+      tbody
+        each pic, index in pics
+          tr
+            td=pic.id
+            td
+              a(href='/backoffice/pics/' + pic.id)=pic.name

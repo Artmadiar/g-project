@@ -1,0 +1,21 @@
+.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    .navbar-header
+      button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
+        span(class="sr-only") Toggle navigation
+        span(class="icon-bar")
+        span(class="icon-bar")
+        span(class="icon-bar")
+
+      a.navbar-brand(href='/backoffice')
+        i.fa.fa-cube
+        ='G-Project'
+
+
+    ul.nav.navbar-nav.navbar-right.navbar-collapse.collapse#navbar
+      if !user
+      else
+        li
+          a(href='/backoffice/pics') Pics
+        li
+          a(href='/backoffice/logout') Logout

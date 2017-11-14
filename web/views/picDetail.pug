@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  .page-header
+    h3=title
+    hr
+
+    .row
+      .col-lg-12
+
+        form.form-horizontal(method='POST')
+          .row
+            .col-lg-12
+              fieldset
+                if pic.id
+                  input(type='hidden', name='id' value=pic.id)
+                input(type='hidden', name='clubId' value=clubId)
+                .form-group
+                  label(for='name') Name:
+                  input.form-control(type='text' name='name' placeholder='Name' value=pic.name)
+          .row
+            .col-lg-12
+              br
+              div.pull-right
+                a#return(href='/backoffice/pics/').btn.btn-primary
+                  i.fa.fa-arrow-left
+                  | Return
+                if pic.id
+                  button.btn.btn-danger(type='button' onclick='del();')
+                    i.fa.fa-trash-o
+                    | Delete
+                button.btn.btn-success(type='submit' formmethod='POST' formaction='/backoffice/pics/')
+                  i.fa.fa-save
+                  | Save
+  script.
+    var del = function(){
+      $.ajax({
+        type: "DELETE",
+        url: window.location.href,
+        error: function(err) {
+          alert(err);
+          console.log(err);
+        },
+        success: function(resp) {
+          if (resp.result) {
+            var href = $('#return').attr('href');
+            window.location.href = href;
+          }
+        }
+      });
+    };
