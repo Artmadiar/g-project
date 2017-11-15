@@ -9,11 +9,20 @@ block content
       thead
         tr
           th id
-          th name
+          th word
           th date
+          th username
+          th name
+          th type of chat
+          th user id
       tbody
         each req, index in reqs
           tr
             td=req.id
             td=req.name
             td=moment(req.createdAt).format('DD.MM.YYYY h:mm:ss')
+            td=req.username
+            td=req.firstName + ' ' + req.lastName
+            td=req.typeOfChat
+            td=req.externalUserId
+            
