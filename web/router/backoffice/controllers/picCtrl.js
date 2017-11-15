@@ -58,6 +58,10 @@ exports.detail = (req, res, next) => {
     const hashtaglist = hashtags.map(hashtag => hashtag.name);
     pic.hashtags = pic.picHashtags.map(picHashtag => picHashtag.hashtag.name).join(', ');
 
+    // set cloudinary credentials for upload
+    res.locals.cloud_name = process.env.CLOUD_NAME;
+    res.locals.upload_preset = process.env.UPLOAD_PRESET;
+    
     res.render('picDetail', { title, pic, hashtaglist: JSON.stringify(hashtaglist) });
   })
   .catch((err) => {
