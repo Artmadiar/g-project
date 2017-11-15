@@ -19,6 +19,7 @@ const morgan = require('morgan'); // only HTTP requests
 const sass = require('node-sass-middleware');
 const router = require('./router');
 const errors = require('../libs/errors');
+const telegram = require('./telegram');
 
 /**
  * Express
@@ -69,5 +70,8 @@ app.use((err, req, res, next) => {
 app.listen(app.get('port'), () => {
   console.log('[RUNNING] PORT: %d MODE: %s TIME: %s', app.get('port'), app.get('env'), Date());
 });
+
+// TELEGRAM BOT
+const bot = telegram();
 
 module.exports = app;
