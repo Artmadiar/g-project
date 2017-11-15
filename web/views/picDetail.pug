@@ -2,15 +2,28 @@ extends layout
 
 block content
   .page-header
-    h3=title
+    h3
+      =title
+      span.pull-right
+        a#return(href='/backoffice/pics/').btn.btn-primary
+          i.fa.fa-arrow-left
+          | Return
+        if pic.id
+          button.btn.btn-danger#delete(type='button')
+            i.fa.fa-trash-o
+            | Delete
+        button.btn.btn-success#submit(type='button')
+          i.fa.fa-save
+          | Save
 
   .container
     .row
       .col-lg-12
 
-        form.form-horizontal(method='POST')
+        form.form-horizontal#form(method='POST' action='/backoffice/pics')
           .row
-            .col-lg-12
+            .col-lg-2
+            .col-lg-8
               fieldset
                 if pic.id
                   input(type='hidden', name='id' value=pic.id)
@@ -20,24 +33,22 @@ block content
                 .form-group
                   label(for='hashtags') Hashtags
                   input#hashtaglist(type='hidden', name='hashtaglist' value=hashtaglist)
-                  input.form-control#hashtags(type="text" name='hashtags' value="red,green,blue")
+                  input.form-control#hashtags(type="text" name='hashtags' value=pic.hashtags)
+            .col-lg-2  
           .row
-            .col-lg-12
-              br
-              div.pull-right
-                a#return(href='/backoffice/pics/').btn.btn-primary
-                  i.fa.fa-arrow-left
-                  | Return
-                if pic.id
-                  button.btn.btn-danger(type='button' onclick='del();')
-                    i.fa.fa-trash-o
-                    | Delete
-                button.btn.btn-success(type='submit' formmethod='POST' formaction='/backoffice/pics/')
-                  i.fa.fa-save
-                  | Save
+              .col-md-2
+              .col-md-8
+                input(type='hidden', name='externalId' value=pic.externalId)
+                input(type='hidden', name='url' value=pic.url)
+                input(type='hidden', name='thumbnailUrl' value=pic.thumbnailUrl)
+                button.btn.btn-primary#upload_widget_opener(type="button") Upload image
+                img#thumbnai(src=pic.thumbnailUrl style="padding: 10px;")
+
   script.
 
     $(document).ready(function() {
+
+      // set hashtag input behavior
       $('#hashtags').tokenfield({
         autocomplete: {
           source: JSON.parse($('[name="hashtaglist"]').val()),
@@ -45,21 +56,52 @@ block content
         },
         showAutocompleteOnFocus: true
       });
-    });
 
-    var del = function(){
-      $.ajax({
-        type: "DELETE",
-        url: window.location.href,
-        error: function(err) {
-          alert(err);
-          console.log(err);
-        },
-        success: function(resp) {
-          if (resp.result) {
-            var href = $('#return').attr('href');
-            window.location.href = href;
+      // set upload widget
+      document.getElementById("upload_widget_opener").addEventListener("click", function() {
+        cloudinary.openUploadWidget({ cloud_name: 'dbpp4jbpn', upload_preset: 'qsjmvypt'}, 
+        function(error, result) {
+          if (error) {
+            alert(error);
+            return;
           }
-        }
+
+          if (result && result[0]) {
+            var uploadedPic = result[0];
+            $('[name="externalId"]').val(uploadedPic.public_id);
+            $('[name="url"]').val(uploadedPic.url);
+            $('[name="thumbnailUrl"]').val(uploadedPic.thumbnail_url);
+
+            $('#thumbnai').attr('src', uploadedPic.thumbnail_url);
+          }
+        });
+      }, false);
+
+      // submit action
+      $('#submit').on('click', function() {
+        // fix of tokenfield
+        $('#hashtags').attr('value', $('#hashtags').val());
+        // submit
+        $('#form').submit();
       });
-    };
+
+
+      // delete action
+      $('#delete').on('click', function() {
+        $.ajax({
+          type: "DELETE",
+          url: window.location.href,
+          error: function(err) {
+            alert(err);
+            console.log(err);
+          },
+          success: function(resp) {
+            if (resp.result) {
+              var href = $('#return').attr('href');
+              window.location.href = href;
+            }
+          }
+        });
+      });
+
+    });

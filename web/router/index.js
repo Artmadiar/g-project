@@ -4,7 +4,7 @@ const contentType = require('../middlewares/contentTypeValidator');
 const backofficeRouter = require('./backoffice');
 const db = require('../../models')();
 
-router.use(bodyParser.json({ limit: '10mb' }));
+router.use(bodyParser.json({ limit: '5mb' }));
 router.use(bodyParser.urlencoded({ extended: true }));
 
 // Content type validation

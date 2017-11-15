@@ -14,6 +14,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    externalId: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    thumbnailUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
   }, {
     tableName: 'pic',
     timestamps: true,

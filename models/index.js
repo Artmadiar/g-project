@@ -61,7 +61,7 @@ module.exports = () => {
   // Associations
 
   db.pic.hasMany(db.picHashtag);
-  db.hashtag.hasOne(db.picHashtag);
+  db.picHashtag.belongsTo(db.hashtag);
 
   db.sequelize.sync().catch((err) => {
     throw err;
