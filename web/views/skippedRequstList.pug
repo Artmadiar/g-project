@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .page-header
+    h3 Skipped requests
+
+  if reqs
+    table.table
+      thead
+        tr
+          th id
+          th name
+          th date
+      tbody
+        each req, index in reqs
+          tr
+            td=req.id
+            td=req.name
+            td=moment(req.createdAt).format('DD.MM.YYYY h:mm:ss')

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('pic', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('skippedRequest', {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -9,18 +9,6 @@ module.exports = {
       autoIncrement: true
     },
     name: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    externalId: {
-      type: Sequelize.STRING,
-      allowNull: true
-    },
-    thumbnailUrl: {
-      type: Sequelize.STRING,
-      allowNull: true
-    },
-    url: {
       type: Sequelize.STRING,
       allowNull: false
     },
@@ -38,5 +26,5 @@ module.exports = {
     }
   }),
 
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('pic')
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('skippedRequest')
 };

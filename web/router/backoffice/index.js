@@ -34,8 +34,9 @@ router.use(flash());
 /**
  * Controllers
  */
-const userController = require('./controllers/userCtrl');
+// const userController = require('./controllers/userCtrl');
 const picController = require('./controllers/picCtrl');
+const skippedRequestController = require('./controllers/skippedRequestsCtrl');
 
 /**
  * Backoffice routes
@@ -49,8 +50,12 @@ const picController = require('./controllers/picCtrl');
 //   next();
 // });
 
+// router.get('/logout', userController.logout);
+
+
 router.get('/', (req, res) => res.redirect(`${req.baseUrl}/pics`));
-router.get('/logout', userController.logout);
+
+router.get('/skipreqs', skippedRequestController.list);
 
 router.get('/pics', picController.list);
 router.get('/pics/:id', picController.detail);

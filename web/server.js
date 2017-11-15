@@ -66,11 +66,6 @@ app.use((err, req, res, next) => {
   res.status(err.code).json(err);
 });
 
-/*
-* Run script "new user"
-*/
-require('../models/scripts/newUser')();
-
 app.listen(app.get('port'), () => {
   console.log('[RUNNING] PORT: %d MODE: %s TIME: %s', app.get('port'), app.get('env'), Date());
 });
