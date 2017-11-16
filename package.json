@@ -4,7 +4,8 @@
   "description": "telegram bot sends you pictures by titles",
   "main": "web/server.js",
   "scripts": {
-    "start": "forever start web/server.js",
+    "start": "./node_modules/.bin/forever start web/server.js",
+    "stop": "./node_modules/.bin/forever stopall",
     "nodemon": "nodemon web/server.js",
     "migrate": "sequelize db:migrate --migrations-path models/migrations/ --config configs/migrations.js --env"
   },
@@ -45,6 +46,7 @@
     "express-flash": "0.0.2",
     "express-session": "1.15.3",
     "express-validator": "3.2.0",
+    "forever": "0.15.3",
     "fs": "0.0.1-security",
     "handlebars": "4.0.10",
     "lodash": "4.17.4",
