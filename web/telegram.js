@@ -8,7 +8,7 @@ module.exports = () => {
   bot.command('start', ctx => ctx.reply('Welcome!'));
 
   // HELP
-  bot.command('help', ctx => ctx.reply('Just send me title of picture you need.'));
+  bot.command('help', ctx => ctx.reply('Just send me title of product you need.'));
 
   // TEXT MESSAGE
   bot.on('text', (ctx) => {
@@ -20,7 +20,7 @@ module.exports = () => {
       if (!pic) {
         return Promise.all([
           db.skippedRequest.create({ name: text }),
-          ctx.reply(`Sorry, we don't have picture with the title "${text}"!`)
+          ctx.reply(`Sorry, we don't have product with the title "${text}"!`)
         ]);
       }
 

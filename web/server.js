@@ -72,6 +72,6 @@ app.listen(app.get('port'), () => {
 });
 
 // TELEGRAM BOT
-// const bot = telegram();
+telegram();
 
 module.exports = app;
