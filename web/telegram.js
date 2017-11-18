@@ -7,28 +7,70 @@ module.exports = () => {
   // START
   bot.command('start', ctx => ctx.reply('Welcome!'));
 
+
   // HELP
   bot.command('help', ctx => ctx.reply('Just send me title of product you need.'));
+
 
   // TEXT MESSAGE
   bot.on('text', (ctx) => {
     const text = ctx.message.text;
     const db = DB();
 
-    return db.pic.findOne({ where: { name: text } })
-    .then((pic) => {
-      if (!pic) {
+    // find frist 5 products by name
+    const findByName = db.pic.findAll({ where: { name: text }, limit: 5 });
+    // find frist 5 products by hashtags
+    const findByHashtag = db.hashtag.findAll({
+      limit: 5,
+      where: { name: text },
+      include: {
+        model: db.picHashtag,
+        include: {
+          model: db.pic
+        }
+      }
+    });
+
+    Promise.all([findByName, findByHashtag])
+    .then(([picsByName, picsByHashtag]) => {
+      if ((!picsByName || picsByName.length === 0) && (!picsByHashtag || picsByHashtag.length === 0)) {
         return Promise.all([
-          db.skippedRequest.create({ name: text }),
+          db.skippedRequest.create({
+            name: text,
+            externalUserId: ctx.chat.id,
+            firstName: ctx.chat.first_name,
+            lastName: ctx.chat.last_name,
+            username: ctx.chat.username,
+            typeOfChat: ctx.chat.type
+          }),
           ctx.reply(`Sorry, we don't have product with the title "${text}"!`)
         ]);
       }
 
-      return ctx.replyWithPhoto({ url: pic.url });
+      // concat two finded pic arrays
+      let results = picsByName;
+      picsByHashtag.forEach(hashtag => hashtag.picHashtags.forEach((picHashtag) => {
+        // take only unique pics
+        if (!results.find(pic => pic.id === picHashtag.pic.id)) {
+          results.push(picHashtag.pic);
+        }
+      }));
+
+      // control count of products
+      if (results.length > 5) {
+        results = results.slice(0, 5);
+      }
+
+      // TODO: check on existing files by url
+      // ...
+
+      // return promises of answers on message
+      return Promise.all(results.map(result => ctx.replyWithPhoto({ url: result.url })));
     })
     .catch(err => console.error(err));
   });
 
+  // RUN THE BOT
   bot.startPolling();
   console.log('[TELEGRAM BOT IS RUNNING] TIME: %s', Date());
 
