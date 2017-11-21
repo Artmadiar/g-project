@@ -17,11 +17,11 @@ module.exports = () => {
     const text = ctx.message.text;
 
     // find frist 5 products by name
-    const findByName = db.pic.findAll({ where: { name: text }, limit: 5 });
+    const findByName = db.pic.findAll({ where: { name: { $iLike: text } }, limit: 5 });
     // find frist 5 products by hashtags
     const findByHashtag = db.hashtag.findAll({
       limit: 5,
-      where: { name: text },
+      where: { name: { $iLike: text } },
       include: {
         model: db.picHashtag,
         include: {
