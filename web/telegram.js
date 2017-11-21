@@ -1,4 +1,4 @@
-const DB = require('../models');
+const db = require('../models')();
 const Telegraf = require('telegraf');
 
 module.exports = () => {
@@ -15,7 +15,6 @@ module.exports = () => {
   // TEXT MESSAGE
   bot.on('text', (ctx) => {
     const text = ctx.message.text;
-    const db = DB();
 
     // find frist 5 products by name
     const findByName = db.pic.findAll({ where: { name: text }, limit: 5 });
