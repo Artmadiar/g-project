@@ -119,6 +119,11 @@ exports.update = (req, res, next) => {
     thumbnailUrl: {
       optional: true
     },
+    productUrl: {
+      notEmpty: true,
+      optional: true,
+      errorMessage: 'Product URL is required.'
+    },
     hashtags: {
       optional: true
     }
@@ -132,7 +137,9 @@ exports.update = (req, res, next) => {
     }
 
     if (req.body.id) {
-      return db.pic.findById(req.body.id);
+      return db.pic.findById(req.body.id)
+        .then(pic => pic.update(req.body))
+        .then(pic => db.pic.findById(req.body.id));
     }
     return db.pic.create(req.body);
   })

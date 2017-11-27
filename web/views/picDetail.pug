@@ -34,6 +34,9 @@ block content
                   label(for='name') Name:
                   input.form-control(type='text' name='name' placeholder='Name' value=pic.name)
                 .form-group
+                  label(for='productUrl') Product URL:
+                  input.form-control(type='text' name='productUrl' placeholder='Product URL' value=pic.productUrl)
+                .form-group
                   label(for='hashtags') Hashtags
                   input#hashtaglist(type='hidden', name='hashtaglist' value=hashtaglist)
                   input.form-control#hashtags(type="text" name='hashtags' value=pic.hashtags)

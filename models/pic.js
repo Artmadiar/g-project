@@ -22,6 +22,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
+    productUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
   }, {
     tableName: 'pic',
     timestamps: true,

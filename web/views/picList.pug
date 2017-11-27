@@ -16,6 +16,7 @@ block content
           th id
           th name
           th picture
+          th Product URL
           th hashtags
       tbody
         each pic, index in pics
@@ -25,4 +26,6 @@ block content
               a(href='/backoffice/pics/' + pic.id)=pic.name
             td
               img(src=pic.thumbnailUrl width=30 height=30)
+            td
+              a(href=pic.productUrl target='_blank')=pic.productUrl
             td=pic.hashtags

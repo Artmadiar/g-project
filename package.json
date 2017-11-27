@@ -7,6 +7,7 @@
     "start": "node web/server",
     "stop": "./node_modules/.bin/forever stopall",
     "nodemon": "nodemon web/server.js",
+    "migrate:new": "sequelize migration:create --migrations-path models/migrations/ --config configs/migrations.js --env --name ",
     "migrate": "sequelize db:migrate --migrations-path models/migrations/ --config configs/migrations.js --env"
   },
   "repository": {
