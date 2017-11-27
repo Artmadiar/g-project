@@ -158,7 +158,7 @@ exports.update = (req, res, next) => {
   })
   .catch((err) => {
     if (err instanceof errors.BadRequest) {
-      return res.redirect(`${req.originalUrl}${req.body.id ? req.body.id : 'new'}`);
+      return res.redirect(`${req.originalUrl}/${req.body.id ? req.body.id : 'new'}`);
     }
 
     return next(err);
