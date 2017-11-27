@@ -64,13 +64,11 @@ module.exports = () => {
       // ...
 
       // return promises of answers on message
-      return Promise.all(results.map(async (result) => {
-        const sendPic = await ctx.replyWithPhoto({ url: result.url });
-        const sendUrl = await ctx.reply(result.productUrl);
-
-        return Promise.all([sendPic, sendUrl]);
-      }));
-
+      return Promise.all(results.map(result => ctx.replyWithPhoto({
+        url: result.url
+      }, {
+        caption: result.productUrl
+      })));
       // return ctx.replyWithMediaGroup(results.map(result => ({
       //   media: { url: result.url },
       //   caption: result.productUrl,
