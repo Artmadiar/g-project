@@ -120,9 +120,7 @@ exports.update = (req, res, next) => {
       optional: true
     },
     productUrl: {
-      notEmpty: true,
-      optional: true,
-      errorMessage: 'Product URL is required.'
+      optional: true
     },
     hashtags: {
       optional: true
